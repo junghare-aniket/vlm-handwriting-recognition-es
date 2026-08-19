@@ -23,8 +23,6 @@ A live, interactive version of the pipeline is hosted on **Hugging Face Spaces**
 
 Upload a scanned manuscript image and get a full transcription, with intermediate pipeline stages (document analysis, preliminary readings) viewable alongside the final result. No installation required, runs on Hugging Face's free ZeroGPU tier.
 
-> **Note:** the deployed web app runs the leaner ***3-stage VLM-only pipeline*** by default (document analysis → literal reading → correction) to keep GPU usage within the free tier's quota. The optional ***4-stage pipeline with TrOCR*** (described below) is available when running the code locally with a TrOCR model configured, and is what's used for the full local `inference.py` / `evaluate.py` scripts and the benchmark results below.
-
 ---
 
 ##  **Repository Structure**
