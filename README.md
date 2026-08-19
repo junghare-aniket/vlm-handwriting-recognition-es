@@ -307,10 +307,12 @@ GSoC26/
 │
 ├── finetune.py                                      # Fine-tuning: LoRA training of Qwen2.5-VL-7B-Instruct
 ├── inference.py                                     # Inference: 4-stage VLM+TrOCR pipeline + visual output
+├── evaluate.py                                      # Evaluation: CER/WER metrics + CSV report
 │
 ├── scripts/
 │   ├── run_finetune.sh                              # SLURM script for fine-tuning
 │   ├── run_inference.sh                             # SLURM script for inference
+│   └── run_eval.sh                                  # SLURM script for evaluation
 │
 ├── models/                                          # Model weights (download separately)
 │   ├── Qwen2.5-VL-7B-Instruct/                      # Base VLM model
