@@ -323,11 +323,16 @@ python -c "from huggingface_hub import snapshot_download; snapshot_download(repo
 ```
 GSoC26/
 ├── README.md                                        # Project overview, approach, results, and usage guide
-├── environment.yml                                 # Python dependencies
+├── environment.yml                                  # Python dependencies
 │
 ├── finetune.py                                      # Fine-tuning: LoRA training of Qwen2.5-VL-7B-Instruct
 ├── inference.py                                     # Inference: 4-stage VLM+TrOCR pipeline + visual output
 ├── evaluate.py                                      # Evaluation: CER/WER metrics + CSV report
+│
+├── app/                                             # Web app (deployed on HF Spaces)
+│   ├── app.py                                       # Gradio app: VLM+LoRA transcription pipeline, deployed on ZeroGPU
+│   └── requirements.txt                             # Pinned dependencies (gradio, spaces, peft, etc.) for ZeroGPU compatibility
+│
 │
 ├── scripts/
 │   ├── run_finetune.sh                              # SLURM script for fine-tuning
