@@ -23,6 +23,10 @@ A live, interactive version of the pipeline is hosted on **Hugging Face Spaces**
 
 Upload a scanned manuscript image and get a full transcription, with intermediate pipeline stages (document analysis, preliminary readings) viewable alongside the final result. No installation required, runs on Hugging Face's free ZeroGPU tier.
 
+<p align="center">
+  <img src="demo.gif" width="90%" alt="Demo of the transcription app in action" />
+</p>
+
 ---
 
 ##  **Approach**
