@@ -1,4 +1,4 @@
-# End-to-end handwritten text recognition for early modern Spanish documents with LLM or Vision-Language Model pipeline creation
+# End-to-end handwritten text recognition for early modern Spanish documents with Vision-Language Model pipeline creation
 
 **GSoC 2026 Final Submission**
 
