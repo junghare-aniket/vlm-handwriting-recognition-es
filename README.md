@@ -10,6 +10,12 @@
 
 ---
 
+## **Abstract**
+
+This project focuses on building an ***end-to-end Handwritten Text Recognition (HTR) pipeline*** for ***early modern Spanish manuscripts*** by placing a ***Vision-Language Model (VLM)*** at the center of every processing stage, rather than using it as a late-stage corrector. The system leverages ***Qwen2.5-VL-7B-Instruct*** with ***LoRA-based fine-tuning*** across a ***multi-task training strategy***, teaching the model both to ***faithfully read handwriting*** and to ***produce clean, corrected transcriptions***. A ***fine-tuned MIM-TrOCR model***, developed during ***GSoC 2025***, provides ***supplementary line-level evidence*** via ***OpenCV-based line segmentation***. The pipeline operates through ***four distinct stages***: ***document analysis***, ***line-level OCR***, ***literal reading***, and ***reconciliation/correction***, enabling robust transcription of ***degraded historical manuscripts***. Evaluated on the ***Rodrigo***, ***Orinoco***, and ***Tridis*** datasets, the system achieves competitive results. In the final phase of the project, the pipeline was also packaged into a ***publicly hosted, open-source web application***, deployed on ***Hugging Face Spaces***, making the tool usable directly from a browser with no local setup, contributing to the development of ***VLM-driven pipelines*** for ***historical document analysis*** and the ***digital preservation*** of ***Renaissance textual heritage***.
+
+---
+
 ##  **Repository Structure**
 
 ```
