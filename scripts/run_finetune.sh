@@ -10,7 +10,7 @@
 
 # Load conda and activate env
 source /home/vis-comp/aniketjunghare/anaconda3/etc/profile.d/conda.sh
-conda activate gsoc_26
+conda activate GSOC_26
 
 # Run finetuning
 python -u finetune.py \
