@@ -37,23 +37,23 @@ Upload a scanned manuscript image and get a full transcription, with intermediat
 - Training prompts are designed to ***exactly match inference prompts***, ensuring consistency between training and deployment.
 - **Training Prompts**:
 
-  **Prompt 1 — Literal Reading:**
+  **Prompt 1 : Literal Reading:**
   ```
   Transcribe every line of handwritten text in this image exactly as it appears.
   Strict rules:
-  - Copy each word precisely as written — no spelling corrections, no modernisation.
+  - Copy each word precisely as written, no spelling corrections, no modernisation.
   - Preserve the EXACT capitalisation of every letter as it appears in the manuscript
   (a capital in the middle of a sentence must stay capital; a lowercase must stay lowercase).
   - Do NOT expand or interpret abbreviations. Words with superscript letters
-  (e.g. 'dho', 'dha', 'q̃', 'p̃') must be copied as-is — superscript letters are
+  (e.g. 'dho', 'dha', 'q̃', 'p̃') must be copied as-is, superscript letters are
   abbreviation markers, never digits or numbers.
   - CRITICAL: In this script, the letters 'd' and 'h' can resemble '3' and '5'.
-  Never write '35o', '35a', '35os', '35as' — the correct forms are
+  Never write '35o', '35a', '35os', '35as', the correct forms are
   'dho', 'dha', 'dhos', 'dhas'.
   - Output only the transcribed text, line by line.
   ```
 
-  **Prompt 2 — Corrected Transcription:**
+  **Prompt 2 : Corrected Transcription:**
   ```
   Using the image, produce the final accurate transcription. Fix only genuine misread
   characters that are clearly contradicted by the visual evidence in the image.
@@ -61,7 +61,7 @@ Upload a scanned manuscript image and get a full transcription, with intermediat
   IMPORTANT constraints:
   - Do NOT modernise spelling, vocabulary, or grammar. Keep all historical and
   archaic forms exactly as written.
-  - Preserve the EXACT capitalisation from the manuscript — do not change a
+  - Preserve the EXACT capitalisation from the manuscript, do not change a
   capital letter to lowercase or vice versa, even in the middle of a sentence.
   - Do NOT expand abbreviations. Copy them as they appear: 'dho', 'dha', 'Dho',
   'Dha', 'dhos', 'dhas', 'q̃', 'p̃', etc.
@@ -72,6 +72,7 @@ Upload a scanned manuscript image and get a full transcription, with intermediat
   Provide ONLY the final corrected transcript, nothing else.
   ```
 
+  
   These prompts are used verbatim (unchanged) as the literal-reading and correction-pass prompts in `inference.py` and `app/app.py`, ensuring training and inference stay in the same distribution.
 
 - **Training Configuration**: batch size 1, gradient accumulation 2, learning rate 1e-5, 10 epochs, bf16 mixed-precision training.
@@ -108,8 +109,6 @@ The deployed web app runs the same architecture with Stage 2a (TrOCR) made optio
 - The pipeline is packaged as a ***Gradio web application*** and deployed on ***Hugging Face Spaces*** using the ***ZeroGPU*** hardware tier (a shared pool of GPUs allocated per-request, free for public use).
 - Only the ***LoRA adapter weights*** (a few hundred MB) are hosted separately on the Hugging Face Hub; the ***16GB base model*** streams directly from `Qwen/Qwen2.5-VL-7B-Instruct` at runtime, keeping the deployment lightweight and avoiding duplication of the base model.
 - ZeroGPU quota is billed ***per visitor***, not per Space owner, so usage by any visiting user draws from their own account's quota rather than the repository owner's.
-
----
 
 ##  **Evaluation Metrics**
 
@@ -312,9 +311,8 @@ python -c "from huggingface_hub import snapshot_download; snapshot_download(repo
 python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/Tridis', repo_type='dataset', local_dir='data/Tridis_eval', local_dir_use_symlinks=False)"
 ```
 
-> Training data (`data/Handwriting-scans/` and `data/Handwriting-transcriptions/`) is included directly in the repository.
-
 ---
+
 
 ##  **Repository Structure**
 
@@ -344,5 +342,73 @@ GSoC26/
 └── results/                                         # Pipeline outputs
     ├── Visual_Results/                              # Side-by-side original vs transcription comparisons
 ```
+
+---
+
+##  **Implementation Guide**
+
+### **1. Set Up the Environment**
+
+```bash
+conda env create -f environment.yml
+conda activate GSOC_26
+```
+
+### **2. Fine-Tuning**
+
+Run the fine-tuning script to adapt the VLM on historical manuscript data:
+
+```bash
+python -u finetune.py \
+  --model-dir models/Qwen2.5-VL-7B-Instruct \
+  --image-dir data/Handwriting-scans \
+  --gt-dir data/Handwriting-transcriptions \
+  --output-dir models/qwen2.5-vl-ocr-lora-handwritten
+```
+
+### **3. Run Inference Pipeline**
+
+Process a manuscript image through the full 4-stage pipeline:
+
+```bash
+python -u inference.py \
+  --model-dir models/Qwen2.5-VL-7B-Instruct \
+  --lora models/qwen2.5-vl-ocr-lora-handwritten/final \
+  --image-dir data/test_images_handwritten \
+  --output-visual results/Visual_Results \
+  --trocr models/mim-trocr-gsoc25
+```
+
+### **4. Run Evaluation**
+
+Evaluate the pipeline on a dataset with ground truth transcriptions:
+
+```bash
+python -u evaluate.py \
+  --model-dir models/Qwen2.5-VL-7B-Instruct \
+  --lora models/qwen2.5-vl-ocr-lora-handwritten/final \
+  --image-dir data/Rodrigo_eval/Rodrigo_Images \
+  --gt-dir data/Rodrigo_eval/Rodrigo_Transcriptions \
+  --output-csv results/Rodrigo_evaluation_results.csv
+```
+
+### **5. Run the Web App Locally**
+
+The same app deployed on Hugging Face Spaces can be run locally:
+
+```bash
+cd app
+pip install -r requirements.txt
+export LORA_ADAPTER_ID="aniket-junghare/qwen2.5-vl-spanish-ocr-lora"
+python app.py
+```
+
+This launches a local Gradio interface. `BASE_MODEL_ID` defaults to `Qwen/Qwen2.5-VL-7B-Instruct` and streams from the Hub; set `TROCR_MODEL_ID` to a local or Hub path to enable the optional 4-stage pipeline.
+
+---
+
+## **License**
+
+This project is licensed under the [Apache License 2.0](LICENSE), consistent with the license of the base model (`Qwen/Qwen2.5-VL-7B-Instruct`).
 
 ---
