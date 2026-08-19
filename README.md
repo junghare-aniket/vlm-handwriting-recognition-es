@@ -15,6 +15,17 @@
 This project focuses on building an ***end-to-end Handwritten Text Recognition (HTR) pipeline*** for ***early modern Spanish manuscripts*** by placing a ***Vision-Language Model (VLM)*** at the center of every processing stage, rather than using it as a late-stage corrector. The system leverages ***Qwen2.5-VL-7B-Instruct*** with ***LoRA-based fine-tuning*** across a ***multi-task training strategy***, teaching the model both to ***faithfully read handwriting*** and to ***produce clean, corrected transcriptions***. A ***fine-tuned MIM-TrOCR model***, developed during ***GSoC 2025***, provides ***supplementary line-level evidence*** via ***OpenCV-based line segmentation***. The pipeline operates through ***four distinct stages***: ***document analysis***, ***line-level OCR***, ***literal reading***, and ***reconciliation/correction***, enabling robust transcription of ***degraded historical manuscripts***. Evaluated on the ***Rodrigo***, ***Orinoco***, and ***Tridis*** datasets, the system achieves competitive results. In the final phase of the project, the pipeline was also packaged into a ***publicly hosted, open-source web application***, deployed on ***Hugging Face Spaces***, making the tool usable directly from a browser with no local setup, contributing to the development of ***VLM-driven pipelines*** for ***historical document analysis*** and the ***digital preservation*** of ***Renaissance textual heritage***.
 
 ---
+## **Try It Now**
+
+A live, interactive version of the pipeline is hosted on **Hugging Face Spaces**:
+
+**🔗 [huggingface.co/spaces/aniket-junghare/spanish-handwriting-ocr](https://huggingface.co/spaces/aniket-junghare/spanish-handwriting-ocr)**
+
+Upload a scanned manuscript image and get a full transcription, with intermediate pipeline stages (document analysis, preliminary readings) viewable alongside the final result. No installation required, runs on Hugging Face's free ZeroGPU tier.
+
+> **Note:** the deployed web app runs the leaner ***3-stage VLM-only pipeline*** by default (document analysis → literal reading → correction) to keep GPU usage within the free tier's quota. The optional ***4-stage pipeline with TrOCR*** (described below) is available when running the code locally with a TrOCR model configured, and is what's used for the full local `inference.py` / `evaluate.py` scripts and the benchmark results below.
+
+---
 
 ##  **Repository Structure**
 
