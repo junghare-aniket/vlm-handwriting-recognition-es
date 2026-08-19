@@ -4,7 +4,7 @@
 ```
 GSoC26/
 ├── README.md                                        # Project overview, approach, results, and usage guide
-├── requirements.txt                                 # Python dependencies
+├── environment.yml                                 # Python dependencies
 │
 ├── finetune.py                                      # Fine-tuning: LoRA training of Qwen2.5-VL-7B-Instruct
 ├── inference.py                                     # Inference: 4-stage VLM+TrOCR pipeline + visual output
