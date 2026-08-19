@@ -185,10 +185,6 @@ Beyond benchmark datasets, the deployed web app was tested directly by two indep
 </p>
 
 <p align="center">
-  <img src="results/output3.png" width="90%" />
-</p>
-
-<p align="center">
   <img src="results/output4.png" width="90%" />
 </p>
 
