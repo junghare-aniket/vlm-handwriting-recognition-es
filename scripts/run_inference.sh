@@ -19,3 +19,5 @@ python -u inference.py \
   --lora models/qwen2.5-vl-ocr-lora-handwritten/final \
   --image-dir data/test_images_handwritten \
   --output-visual results/Visual_Results 
+  --trocr models/mim-trocr-gsoc25
+  
