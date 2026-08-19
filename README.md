@@ -276,6 +276,24 @@ python -c "from huggingface_hub import snapshot_download; snapshot_download(repo
 
 ##  **Download Datasets**
 
+### **Training Scans**
+
+```bash
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/Handwriting-scans', repo_type='dataset', local_dir='data/Handwriting-scans', local_dir_use_symlinks=False)"
+```
+
+### **Training Transcriptions**
+
+```bash
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/Handwriting-transcriptions', repo_type='dataset', local_dir='data/Handwriting-transcriptions', local_dir_use_symlinks=False)"
+```
+
+### **Test Images**
+
+```bash
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/test_images_handwritten', repo_type='dataset', local_dir='data/test_images_handwritten', local_dir_use_symlinks=False)"
+```
+
 ### **Rodrigo Dataset**
 
 ```bash
