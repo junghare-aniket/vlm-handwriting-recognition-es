@@ -17,5 +17,5 @@ conda activate gsoc_26
 python -u inference.py \
   --model-dir models/Qwen2.5-VL-7B-Instruct \
   --lora models/qwen2.5-vl-ocr-lora-handwritten/final \
-  --image-dir data/given_test_images_handwritten \
+  --image-dir data/test_images_handwritten \
   --output-visual results/Visual_Results 
