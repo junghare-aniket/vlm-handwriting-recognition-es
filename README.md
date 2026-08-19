@@ -192,6 +192,112 @@ Beyond benchmark datasets, the deployed web app was tested directly by two indep
 
 ---
 
+## **Key Design Decisions**
+
+### **1. VLM at All Stages**
+The VLM is not merely a late-stage post-processor. It drives ***every stage*** of the pipeline: document analysis, literal reading, and reconciliation/correction. This satisfies the core requirement of the project and enables the model to leverage ***visual context*** throughout the entire transcription process.
+
+### **2. TrOCR as Supplementary OCR**
+The ***fine-tuned MIM-TrOCR model***, developed during ***GSoC 2025***, provides an ***independent line-level reading*** that the VLM can cross-reference during correction. Critically, the pipeline ***works fully without TrOCR***, ensuring robustness when line segmentation fails or TrOCR is unavailable. This is also why the deployed web app can run the leaner 3-stage version by default.
+
+### **3. Multi-Task Fine-Tuning**
+Training with ***two complementary prompts per image*** (literal reading + corrected transcription) teaches the model distinct skills. The training prompts ***exactly match inference prompts***, ensuring consistency and preventing distribution shift between training and deployment.
+
+### **4. Repetition Control**
+Historical manuscripts with repetitive patterns or degraded regions can cause VLMs to enter ***output loops***. The combination of ***no_repeat_ngram_size=10*** and ***repetition_penalty=1.2*** effectively prevents this while preserving the model's ability to produce legitimate repeated text.
+
+### **5. Classical Line Segmentation**
+The ***OpenCV horizontal projection profile*** approach for line segmentation is chosen for its ***robustness***, ***simplicity***, and ***zero training data requirement***. It reliably segments diverse manuscript layouts without introducing additional model dependencies.
+
+### **6. Lightweight, Reproducible Deployment**
+Only the LoRA adapter is hosted as a deployable artifact; the base model is never re-uploaded or duplicated. This keeps the deployment small, makes the adapter independently reusable by others, and demonstrates parameter-efficient fine-tuning as a practical deployment strategy, not just a training-time optimization.
+
+---
+
+##  **Future Improvements**
+
+### **1. Multi-Model VLM Support**
+Integrate ***multiple open-source VLM backends*** including larger ***Qwen2.5-VL variants*** (3B, 72B), ***InternVL***, and other competitive models, allowing users to trade off between ***speed*** and ***accuracy*** based on their hardware.
+
+### **2. Batch Processing for Multi-Page Manuscripts**
+Add support for processing ***entire multi-page manuscripts*** in a single run, with ***PDF input support***, ***automatic page ordering***, ***per-page error recovery***, and ***consolidated output*** in multiple formats. Deliberately deferred for the hosted web app specifically, since multi-page PDF support would multiply GPU load per document and conflicts with staying responsive under the free ZeroGPU tier's quota.
+
+### **3. Improved Line Segmentation**
+Augment the classical OpenCV approach with a ***learned segmentation model*** for improved robustness on documents with ***marginalia***, ***annotations***, and ***multi-column layouts***.
+
+### **4. Expanded Dataset Coverage**
+Fine-tune and evaluate across a broader range of ***historical manuscript collections*** from ***BNE***, ***Europeana***, and other digital archives to improve ***generalization*** across diverse handwriting styles and document conditions.
+
+### **5. Multilingual Adaptation**
+Extend the pipeline to support ***other historical languages and scripts*** beyond Spanish, leveraging the ***multilingual capabilities*** of modern VLMs.
+
+### **6. Character-Level Accuracy Improvements**
+Address the r/u/v confusion patterns identified during real-world testing by expanding fine-tuning data coverage for visually similar character pairs in the source script.
+
+---
+
+##  **Tech Stack**
+
+| **Component** | **Tool / Library** |
+|---------------|-------------------|
+| VLM | Qwen2.5-VL-7B-Instruct + LoRA (PEFT) |
+| OCR | Fine-tuned MIM-TrOCR (line-level recognition, developed during GSoC 2025) |
+| Line Segmentation | OpenCV horizontal projection profiles |
+| Metrics | Character Error Rate (CER), Word Error Rate (WER) |
+| Web App | Gradio, deployed on Hugging Face Spaces (ZeroGPU) |
+| Hardware (Training/Eval) | NVIDIA A40/A100 GPUs via SLURM |
+| Hardware (Deployed App) | Hugging Face ZeroGPU (shared, on-demand GPU allocation) |
+
+---
+
+##  **Download Models**
+
+### **Base VLM Model**
+Download the base Qwen2.5-VL-7B-Instruct model from Hugging Face:
+
+```bash
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='Qwen/Qwen2.5-VL-7B-Instruct', local_dir='models/Qwen2.5-VL-7B-Instruct', local_dir_use_symlinks=False)"
+```
+
+### **Fine-tuned TrOCR Model** (developed during GSoC 2025)
+
+```bash
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/mim-trocr-gsoc25', local_dir='models/mim-trocr-gsoc25')"
+```
+
+### **VLM LoRA Weights**
+Running `finetune.py` will generate the LoRA adapter weights in the `models/qwen2.5-vl-ocr-lora/` directory. If you want to skip fine-tuning and use the pre-trained weights directly (the same weights powering the live demo):
+
+```bash
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/qwen2.5-vl-ocr-lora-handwritten', local_dir='models/qwen2.5-vl-ocr-lora-handwritten', local_dir_use_symlinks=False)"
+```
+
+---
+
+##  **Download Datasets**
+
+### **Rodrigo Dataset**
+
+```bash
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/Rodrigo', repo_type='dataset', local_dir='data/Rodrigo_eval', local_dir_use_symlinks=False)"
+```
+
+### **Orinoco Dataset**
+
+```bash
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/Orinoco_Expedition', repo_type='dataset', local_dir='data/Orinoco_eval', local_dir_use_symlinks=False)"
+```
+
+### **Tridis Dataset**
+
+```bash
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/Tridis', repo_type='dataset', local_dir='data/Tridis_eval', local_dir_use_symlinks=False)"
+```
+
+> Training data (`data/Handwriting-scans/` and `data/Handwriting-transcriptions/`) is included directly in the repository.
+
+---
+
 ##  **Repository Structure**
 
 ```
