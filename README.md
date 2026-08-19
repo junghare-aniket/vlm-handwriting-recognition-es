@@ -6,6 +6,9 @@
 [![LoRA Adapter](https://img.shields.io/badge/🤗%20Model-LoRA%20Adapter-yellow)](https://huggingface.co/aniket-junghare/qwen2.5-vl-spanish-ocr-lora)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
+📄 **Blog posts:** [Midterm Update](https://medium.com/@aniketjunghare999/building-an-end-to-end-vlm-driven-pipeline-for-reading-early-modern-spanish-handwriting-gsoc-2026-b307b89f5c92) · [Final Update](#) *(link once published)*
+
+---
 
 ##  **Repository Structure**
 
