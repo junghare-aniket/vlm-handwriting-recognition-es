@@ -23,8 +23,7 @@ GSoC26/
 │   ├── test_images_handwritten/                     # Test images (used by inference.py)
 |
 └── results/                                         # Pipeline outputs
-    ├── Visual_Results/                              # Generated visual transcription images
-    ├── Comparison/                                  # Side-by-side original vs transcription comparisons
+    ├── Visual_Results/                              # Side-by-side original vs transcription comparisons
 ```
 
 ---
