@@ -2,6 +2,10 @@
 
 **GSoC 2026 Final Submission**
 
+[![Live Demo](https://img.shields.io/badge/🤗%20Live%20Demo-Hugging%20Face%20Spaces-blue)](https://huggingface.co/spaces/aniket-junghare/spanish-handwriting-ocr)
+[![LoRA Adapter](https://img.shields.io/badge/🤗%20Model-LoRA%20Adapter-yellow)](https://huggingface.co/aniket-junghare/qwen2.5-vl-spanish-ocr-lora)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
+
 
 ##  **Repository Structure**
 
