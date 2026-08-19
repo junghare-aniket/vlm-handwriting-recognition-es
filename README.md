@@ -396,19 +396,6 @@ python -u evaluate.py \
   --output-csv results/Rodrigo_evaluation_results.csv
 ```
 
-### **5. Run the Web App Locally**
-
-The same app deployed on Hugging Face Spaces can be run locally:
-
-```bash
-cd app
-pip install -r requirements.txt
-export LORA_ADAPTER_ID="aniket-junghare/qwen2.5-vl-spanish-ocr-lora"
-python app.py
-```
-
-This launches a local Gradio interface. `BASE_MODEL_ID` defaults to `Qwen/Qwen2.5-VL-7B-Instruct` and streams from the Hub; set `TROCR_MODEL_ID` to a local or Hub path to enable the optional 4-stage pipeline.
-
 ---
 
 ## **License**
