@@ -174,6 +174,19 @@ Beyond benchmark datasets, the deployed web app was tested directly by two indep
 
 ---
 
+##  **Sample Transcription Results**
+
+<p align="center">
+  <img src="Results/output_15.png" width="90%" />
+</p>
+
+<p align="center">
+  <img src="Results/output_24.png" width="90%" />
+</p>
+
+> All image outputs are available in the [`Results/`](Results/) folder.
+
+---
 
 ##  **Repository Structure**
 
