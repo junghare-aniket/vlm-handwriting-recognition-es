@@ -39,16 +39,40 @@ Upload a scanned manuscript image and get a full transcription, with intermediat
 
   **Prompt 1 — Literal Reading:**
   ```
-  Quickly read the handwritten text in this image as literally as possible. Output only the raw text you can
-  see, line by line, without any spelling corrections or interpretation. Include every word even if unclear.
+  Transcribe every line of handwritten text in this image exactly as it appears.
+  Strict rules:
+  - Copy each word precisely as written — no spelling corrections, no modernisation.
+  - Preserve the EXACT capitalisation of every letter as it appears in the manuscript
+  (a capital in the middle of a sentence must stay capital; a lowercase must stay lowercase).
+  - Do NOT expand or interpret abbreviations. Words with superscript letters
+  (e.g. 'dho', 'dha', 'q̃', 'p̃') must be copied as-is — superscript letters are
+  abbreviation markers, never digits or numbers.
+  - CRITICAL: In this script, the letters 'd' and 'h' can resemble '3' and '5'.
+  Never write '35o', '35a', '35os', '35as' — the correct forms are
+  'dho', 'dha', 'dhos', 'dhas'.
+  - Output only the transcribed text, line by line.
   ```
 
   **Prompt 2 — Corrected Transcription:**
   ```
-  Carefully read the handwritten text in the image. Write down the transcription. If you recognize obvious
-  spelling errors or archaic abbreviations, output a corrected version of the text that likely represents
-  the intended words. Provide ONLY the final corrected transcript, preserving the structure of the document.
+  Using the image, produce the final accurate transcription. Fix only genuine misread
+  characters that are clearly contradicted by the visual evidence in the image.
+
+  IMPORTANT constraints:
+  - Do NOT modernise spelling, vocabulary, or grammar. Keep all historical and
+  archaic forms exactly as written.
+  - Preserve the EXACT capitalisation from the manuscript — do not change a
+  capital letter to lowercase or vice versa, even in the middle of a sentence.
+  - Do NOT expand abbreviations. Copy them as they appear: 'dho', 'dha', 'Dho',
+  'Dha', 'dhos', 'dhas', 'q̃', 'p̃', etc.
+  - CRITICAL misread to fix: In this script, 'd' resembles '3' and 'h' resembles '5'.
+  If you see '35o', '35a', '35os', or '35as', these are ALWAYS misreads of
+  'dho', 'dha', 'dhos', 'dhas' respectively. Correct every occurrence.
+  - Preserve the line and paragraph structure of the document.
+  Provide ONLY the final corrected transcript, nothing else.
   ```
+
+  These prompts are used verbatim (unchanged) as the literal-reading and correction-pass prompts in `inference.py` and `app/app.py`, ensuring training and inference stay in the same distribution.
 
 - **Training Configuration**: batch size 1, gradient accumulation 2, learning rate 1e-5, 10 epochs, bf16 mixed-precision training.
 - **Hardware**: NVIDIA A40/A100 GPUs via SLURM cluster.
@@ -149,6 +173,7 @@ The Tridis dataset presents a ***distinct challenge*** with its mix of handwriti
 Beyond benchmark datasets, the deployed web app was tested directly by two independent reviewers. Both reported smooth setup and "very workable" transcription quality on real manuscript images. Feedback surfaced two concrete error patterns for future work: occasional confusion between visually similar characters (lowercase 'r', and 'u'/'v'), likely reflecting a training data coverage gap, and a subtler failure where a word split across a line break was transcribed as a different, shorter word (e.g. *"atrevimiento"* read as *"atrevido"*). A prompt-level fix targeting the line-break issue has been added to the correction stage as an initial mitigation, pending further validation.
 
 ---
+
 
 ##  **Repository Structure**
 
