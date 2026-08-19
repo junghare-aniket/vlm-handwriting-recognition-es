@@ -180,15 +180,15 @@ Beyond benchmark datasets, the deployed web app was tested directly by two indep
 ##  **Sample Transcription Results**
 
 <p align="center">
-  <img src="results/output1.png" width="90%" />
+  <img src="results/Model_output/output1.png" width="90%" />
 </p>
 
 <p align="center">
-  <img src="results/output2.png" width="90%" />
+  <img src="results/Model_outputoutput2.png" width="90%" />
 </p>
 
 <p align="center">
-  <img src="results/output4.png" width="90%" />
+  <img src="results/Model_outputoutput4.png" width="90%" />
 </p>
 
 > All image outputs are available in the [`results/`](results/) folder.
