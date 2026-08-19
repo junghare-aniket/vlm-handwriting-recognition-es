@@ -269,7 +269,7 @@ python -c "from huggingface_hub import snapshot_download; snapshot_download(repo
 Running `finetune.py` will generate the LoRA adapter weights in the `models/qwen2.5-vl-ocr-lora/` directory. If you want to skip fine-tuning and use the pre-trained weights directly (the same weights powering the live demo):
 
 ```bash
-python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/qwen2.5-vl-ocr-lora-handwritten', local_dir='models/qwen2.5-vl-ocr-lora-handwritten', local_dir_use_symlinks=False)"
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aniket-junghare/qwen2.5-vl-spanish-ocr-lora', local_dir='models/qwen2.5-vl-ocr-lora-handwritten', local_dir_use_symlinks=False)"
 ```
 
 ---
