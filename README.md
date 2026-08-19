@@ -25,9 +25,6 @@ GSoC26/
 └── results/                                         # Pipeline outputs
     ├── Visual_Results/                              # Generated visual transcription images
     ├── Comparison/                                  # Side-by-side original vs transcription comparisons
-    |── Rodrigo_evaluation_results.csv               # Evaluation CSV with per-image metrics 
-    |── Orinoco_evaluation_results.csv               # Evaluation CSV with per-image metrics
-    └── Tridis_evaluation_results.csv                # Evaluation CSV with per-image metrics
 ```
 
 ---
