@@ -191,7 +191,7 @@ Beyond benchmark datasets, the deployed web app was tested directly by two indep
   <img src="results/Model_output/output4.png" width="90%" />
 </p>
 
-> All image outputs are available in the [`results/`](results/) folder.
+> All image outputs are available in the [`results/Model_output/`](results/Model_output/) folder.
 
 ---
 
