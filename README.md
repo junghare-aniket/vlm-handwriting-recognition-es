@@ -337,14 +337,22 @@ GSoC26/
 ├── models/                                          # Model weights (download separately)
 │   ├── Qwen2.5-VL-7B-Instruct/                      # Base VLM model
 │   ├── qwen2.5-vl-ocr-lora-handwritten              # LoRA adapter weights (output of finetune.py)
+│   └── mim-trocr-gsoc25/                            # Fine-tuned TrOCR model (developed during GSoC 2025)
 │
 ├── data/                                            # Datasets (download separately)
 │   ├── Handwriting-scans/                           # Training images (used by finetune.py)
 │   ├── Handwriting-transcriptions/                  # Training ground truth (used by finetune.py)
 │   ├── test_images_handwritten/                     # Test images (used by inference.py)
+│   ├── Rodrigo_eval/                                # Directory having image-transcription pairs (used by evaluate.py)
+│   |── Orinoco_eval/                                # Directory having image-transcription pairs (used by evaluate.py)
+│   └── Tridis_eval/                                 # Directory having image-transcription pairs (used by evaluate.py)
 |
 └── results/                                         # Pipeline outputs
-    ├── Visual_Results/                              # Side-by-side original vs transcription comparisons
+    ├── Model_output/                                # Side-by-side original vs transcription comparisons
+    ├── Visual_Results/                              # Generated visual transcription images
+    |── Rodrigo_evaluation_results.csv               # Evaluation CSV with per-image metrics 
+    |── Orinoco_evaluation_results.csv               # Evaluation CSV with per-image metrics
+    └── Tridis_evaluation_results.csv                # Evaluation CSV with per-image metrics
 ```
 
 ---
